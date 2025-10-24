@@ -53,6 +53,10 @@ matches_ml = []
 matches_mp = []
 
 for idx, it in enumerate(items):
+    # Solo considerar posiciones 1 a 10 (idx de 0 a 9)
+    if idx >= 10:
+        break  # ya procesamos las 10 primeras posiciones
+
     trend = it.get('trend', '')
     volume = it.get('volume', 'N/A')
     norm_trend = _normalize(trend)
@@ -86,11 +90,10 @@ def enviar_correo(asunto, destinatarios, coincidencias):
     """
 
     for m in coincidencias:
-        volumen_texto = f"{m['volume']} tweets" if m['volume'] != 'N/A' else "volumen no disponible"
+        volumen_texto = f"{m['volume']} " if m['volume'] != 'N/A' else "volumen no disponible"
         html_body += f"""
         <div style="margin-bottom: 15px; font-size: 16px;">
             <strong>{m['trend']}</strong> es tendencia N° <strong>{m['index']}</strong> en Argentina con <strong>{volumen_texto}</strong>.<br>
-            <span style="font-size: 13px; color: #555;">(Coincidencias: {', '.join(m['matches'])})</span>
         </div>
         """
 
@@ -106,7 +109,6 @@ def enviar_correo(asunto, destinatarios, coincidencias):
     msg['Subject'] = asunto
     msg['From'] = EMAIL_SENDER
     msg['To'] = ', '.join(destinatarios)
-    msg.set_content("Se detectaron nuevas tendencias relevantes en Twitter.")  # Fallback de texto plano
     msg.add_alternative(html_body, subtype='html')
 
     try:
