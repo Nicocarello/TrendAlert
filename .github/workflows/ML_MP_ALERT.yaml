@@ -31,4 +31,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: 🚀 Ejecutar script de tendencias
-        run: python twitter_trends.py
+        run: python ML_MP_TREND_ALERT.py
