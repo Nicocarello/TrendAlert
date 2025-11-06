@@ -54,7 +54,7 @@ matches_mp = []
 
 for idx, it in enumerate(items):
     # Solo considerar posiciones 1 a 10 (idx de 0 a 9)
-    if idx >= 10:
+    if idx >= 20:
         break  # ya procesamos las 10 primeras posiciones
 
     trend = it.get('trend', '')
